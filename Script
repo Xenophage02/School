@@ -1,0 +1,67 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class Prefabs : MonoBehaviour
+{
+    public GameObject pref;
+    public Transform parent;
+    public Text text_count;
+    private int count = 0;
+
+    private void Update(){
+        Get_MouseInput();
+    }
+
+    private void Get_MouseInput(){
+        if(Input.GetMouseButtonUp(0)){
+            Function_Instantiate();
+        }
+        if(Input.GetMouseButtonUp(1)){
+            Function_Destroy();
+        }
+    }
+
+    private void Function_Instantiate(){
+        Vector2 mousePos = Input.mousePosition;
+        GameObject inst = Instantiate(pref, parent);
+        inst.transform.position = mousePos;
+        Change_Count(+1);
+    }
+
+    private void Function_Destroy()
+    {
+        if (parent.childCount.Equals(0))
+            return;
+
+        Destroy(parent.GetChild(0).gameObject);
+        Change_Count(-1);
+    }
+    private void Change_Count(int _value)
+    {
+        count += _value;
+        text_count.text = count.ToString();
+        Debug.LogFormat("Count : {0}", count);
+    }
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
+    }
+}
+///변수(variable)
+
+///pref(GameObject) : 생성할(복제할) 프리팹
+///parent(Transform) : 생성한 오브젝트를 넣어둘 부모 오브젝트
+///text_count(Text) : count 표시
+///count(int) : 현재 오브젝트의 수
+
+///함수(function)
+
+///Get_MouseInput : 마우스의 인풋 값 측정 (왼쪽/오른쪽 마우스가 눌렸는지)
+///Function_Instantiate : 오브젝트 생성
+///Function_Destroy : 오프젝트 파괴
+///Change_Count(int) : 개수 변환 및 표시
